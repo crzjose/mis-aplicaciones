@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d19">
+<meta name="description" content="Descubre y descarga aplicaciones Android desde APPSTORE.">
+<title>APPSTORE | Centro de aplicaciones</title>
+
+<style>
+:root {
+  --bg: #090d19;
+  --panel: #111827;
+  --panel2: #172033;
+  --blue: #5685ff;
+  --purple: #9565ff;
+  --text: #f4f6ff;
+  --muted: #929bb0;
+  --border: rgba(255,255,255,.09);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input {
+  font: inherit;
+}
+
+/* BARRA SUPERIOR */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(9,13,25,.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  max-width: 1200px;
+  margin: auto;
+  padding: 17px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg,var(--blue),var(--purple));
+  font-size: 23px;
+}
+
+.logo span {
+  background: linear-gradient(90deg,#75a0ff,#bd91ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  color: #c1c8d8;
+  font-size: 14px;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+/* PORTADA */
+
+.hero {
+  max-width: 1200px;
+  margin: 35px auto 0;
+  padding: 30px 22px 45px;
+}
+
+.hero-box {
+  position: relative;
+  overflow: hidden;
+  padding: 65px 48px;
+  border: 1px solid rgba(130,145,255,.19);
+  border-radius: 27px;
+  background:
+    radial-gradient(ellipse at 85% 20%,rgba(115,78,255,.26),transparent 45%),
+    radial-gradient(ellipse at 10% 100%,rgba(42,120,255,.19),transparent 45%),
+    linear-gradient(125deg,#141e36,#11152b 65%,#191332);
+}
+
+.hero-box:after {
+  content: "✦";
+  position: absolute;
+  right: 9%;
+  top: 10px;
+  font-size: 170px;
+  color: rgba(255,255,255,.07);
+  pointer-events: none;
+}
+
+.tag {
+  display: inline-block;
+  color: #a9c0ff;
+  background: rgba(91,126,255,.13);
+  border: 1px solid rgba(116,145,255,.24);
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 12px;
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  max-width: 670px;
+  font-size: clamp(34px,6vw,58px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+  margin-bottom: 17px;
+}
+
+.hero h1 span {
+  background: linear-gradient(90deg,#7da5ff,#b78aff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: #b5bed2;
+  line-height: 1.7;
+  max-width: 540px;
+  font-size: 16px;
+}
+
+/* BUSCADOR */
+
+.search-box {
+  max-width: 570px;
+  margin-top: 30px;
+  background: #ffffff;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  padding: 5px 7px 5px 16px;
+  gap: 10px;
+}
+
+.search-box span {
+  color: #68748a;
+  font-size: 21px;
+}
+
+.search-box input {
+  min-width: 0;
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #182033;
+  padding: 12px 0;
+}
+
+.search-box button {
+  border: none;
+  background: linear-gradient(120deg,var(--blue),var(--purple));
+  color: white;
+  padding: 12px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* CONTENIDO */
+
+.container {
+  max-width: 1200px;
+  padding: 0 22px 60px;
+  margin: auto;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.section-head h2 {
+  font-size: 23px;
+  letter-spacing: -.5px;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 5px 0 18px;
+  scrollbar-width: none;
+}
+
+.categories button {
+  flex-shrink: 0;
+  padding: 10px 19px;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+  color: #b8c2d7;
+  background: var(--panel);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.categories button:hover,
+.categories button.active {
+  background: linear-gradient(110deg,#477cff,#8155ed);
+  border-color: transparent;
+  color: white;
+}
+
+/* TARJETAS */
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 19px;
+}
+
+.app-card {
+  background: linear-gradient(145deg,#151e30,#101727);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  padding: 21px;
+  transition: .25s;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(116,145,255,.45);
+  box-shadow: 0 15px 35px rgba(0,0,0,.2);
+}
+
+.app-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.app-icon {
+  width: 65px;
+  height: 65px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  font-size: 31px;
+  background: linear-gradient(135deg,#294f9f,#744ac4);
+  box-shadow: 0 8px 20px rgba(75,90,220,.2);
+}
+
+.app-info {
+  min-width: 0;
+}
+
+.app-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.app-info p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.app-description {
+  color: #aab5ca;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 19px 0;
+  min-height: 42px;
+}
+
+.app-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #9daac2;
+  font-size: 11px;
+  margin-bottom: 17px;
+}
+
+.app-meta span {
+  background: rgba(255,255,255,.06);
+  padding: 6px 9px;
+  border-radius: 7px;
+}
+
+.download {
+  display: block;
+  text-align: center;
+  background: linear-gradient(110deg,#477cff,#8655ee);
+  padding: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 750;
+  border-radius: 10px;
+  transition: .2s;
+}
+
+.download:hover {
+  filter: brightness(1.15);
+}
+
+.empty {
+  display: none;
+  text-align: center;
+  padding: 40px 10px;
+  color: var(--muted);
+  grid-column: 1/-1;
+}
+
+/* VENTAJAS */
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  margin-top: 55px;
+}
+
+.feature {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 23px;
+}
+
+.feature-icon {
+  font-size: 26px;
+  margin-bottom: 13px;
+}
+
+.feature h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* PIE */
+
+footer {
+  border-top: 1px solid var(--border);
+  background: #0c1120;
+  padding: 35px 22px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+footer p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+footer a {
+  color: #a9baff;
+  font-size: 12px;
+}
+
+@media(max-width:850px) {
+  .apps-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:600px) {
+  .nav {
+    padding: 13px 17px;
+  }
+
+  .nav-links {
+    gap: 13px;
+    font-size: 12px;
+  }
+
+  .hero {
+    margin-top: 15px;
+    padding: 15px 14px 30px;
+  }
+
+  .hero-box {
+    padding: 40px 23px;
+    border-radius: 20px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1.4px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 15px 45px;
+  }
+
+  .apps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+    margin-top: 35px;
+  }
+
+  .section-head h2 {
+    font-size: 20px;
+  }
+}
+
+@media(max-width:370px) {
+  .nav-links {
+    gap: 8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#" class="logo">
+      <div class="logo-icon">▣</div>
+      APP<span>STORE</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#aplicaciones">Aplicaciones</a>
+      <a href="#nosotros">Acerca de</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-box">
+
+    <div class="tag">✦ TU CENTRO DE DESCARGAS ANDROID</div>
+
+    <h1>
+      Descubre nuevas
+      <span>aplicaciones.</span>
+    </h1>
+
+    <p>
+      Explora nuestra colección de aplicaciones Android.
+      Encuentra lo que necesitas y descarga tus apps
+      favoritas de manera sencilla.
+    </p>
+
+    <div class="search-box">
+      <span>⌕</span>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Buscar aplicaciones..."
+        aria-label="Buscar aplicaciones"
+      >
+      <button onclick="searchApps()">Buscar</button>
+    </div>
+
+  </div>
+</section>
+
+<main class="container" id="aplicaciones">
+
+  <div class="section-head">
+    <div>
+      <h2>Explorar aplicaciones</h2>
+      <p>Descubre nuestra colección para Android.</p>
+    </div>
+  </div>
+
+  <div class="categories">
+    <button class="active" data-category="todos">Todas</button>
+    <button data-category="personalizacion">Personalización</button>
+    <button data-category="herramientas">Herramientas</button>
+    <button data-category="entretenimiento">Entretenimiento</button>
+  </div>
+
+  <div class="apps-grid" id="appsGrid">
+
+    <!-- APLICACIÓN 1 -->
+
+    <article class="app-card"
+      data-name="stickers whatsapp"
+      data-category="personalizacion">
+
+      <div class="app-top">
+        <div class="app-icon">🎨</div>
+
+        <div class="app-info">
+          <h3>Stickers WhatsApp</h3>
+          <p>Aplicación Android</p>
+        </div>
+      </div>
+
+      <p class="app-description">
+        Descubre paquetes de stickers para personalizar
+        tus conversaciones y compartir con tus amigos.
+      </p>
+
+      <div class="app-meta">
+        <span>Android</span>
+        <span>Versión 1.0.0</span>
+        <span>APK</span>
+      </div>
+
+      <a class="download"
+        href="https://github.com/crzjose/mis-aplicaciones/releases/latest"
+        target="_blank"
+        rel="noopener">
+        ↓ VER DESCARGA
+      </a>
+
+    </article>
+
+    <!-- PRÓXIMAMENTE -->
+
+    <article class="app-card"
+      data-name="nuevas aplicaciones"
+      data-category="herramientas">
+
+      <div class="app-top">
+        <div class="app-icon"
+          style="background:linear-gradient(135deg,#246d73,#3477ad)">
+          ✨
+        </div>
+
+        <div class="app-info">
+          <h3>Próximamente</h3>
+          <p>Nuevas aplicaciones</p>
+        </div>
+      </div>
+
+      <p class="app-description">
+        Estamos preparando nuevas aplicaciones.
+        Muy pronto encontrarás más contenido aquí.
+      </p>
+
+      <div class="app-meta">
+        <span>Próximamente</span>
+        <span>Android</span>
+      </div>
+
+      <div class="download"
+        style="background:#29364b;color:#9eacc5">
+        MUY PRONTO
+      </div>
+
+    </article>
+
+    <div class="empty" id="empty">
+      <div style="font-size:35px;margin-bottom:12px">🔎</div>
+      <h3>No encontramos aplicaciones</h3>
+      <p>Prueba con otro nombre o categoría.</p>
+    </div>
+
+  </div>
+
+  <section class="features" id="nosotros">
+
+    <div class="feature">
+      <div class="feature-icon">📲</div>
+      <h3>Descargas sencillas</h3>
+      <p>Accede a las descargas de tus aplicaciones desde un solo lugar.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🔄</div>
+      <h3>Actualizaciones</h3>
+      <p>Consulta las nuevas versiones de las aplicaciones disponibles.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <h3>Información clara</h3>
+      <p>Consulta el nombre, versión y detalles de cada aplicación antes de descargar.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">▣</div>
+      APP<span>STORE</span>
+    </a>
+
+    <p>© 2026 APPSTORE. Todos los derechos reservados.</p>
+
+    <a href="soportealcliente828@gmail.com">Contacto</a>
+  </div>
+</footer>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".app-card");
+const categoryButtons = document.querySelectorAll(".categories button");
+const empty = document.getElementById("empty");
+
+let selectedCategory = "todos";
+
+function filterApps() {
+  const query = searchInput.value.toLowerCase().trim();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    const category = card.dataset.category;
+
+    const matchesName = name.includes(query);
+    const matchesCategory =
+      selectedCategory === "todos" ||
+      category === selectedCategory;
+
+    const show = matchesName && matchesCategory;
+
+    card.style.display = show ? "block" : "none";
+
+    if (show) visible++;
+  });
+
+  empty.style.display = visible === 0 ? "block" : "none";
+}
+
+function searchApps() {
+  filterApps();
+  document.getElementById("aplicaciones").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+searchInput.addEventListener("input", filterApps);
+
+categoryButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    categoryButtons.forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+
+    selectedCategory = button.dataset.category;
+    filterApps();
+  });
+});
+</script>
+
+</body>
+</html>
