@@ -5,474 +5,130 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090d19">
-<meta name="description" content="Descubre y descarga aplicaciones Android desde APPSTORE.">
+<meta name="description" content="APPSTORE: descubre y descarga aplicaciones Android.">
 <title>APPSTORE | Centro de aplicaciones</title>
 
 <style>
-:root {
-  --bg: #090d19;
-  --panel: #111827;
-  --panel2: #172033;
-  --blue: #5685ff;
-  --purple: #9565ff;
-  --text: #f4f6ff;
-  --muted: #929bb0;
-  --border: rgba(255,255,255,.09);
+:root{
+ --bg:#090d19;--panel:#111827;--panel2:#172033;
+ --blue:#5685ff;--purple:#9565ff;--text:#f4f6ff;
+ --muted:#929bb0;--border:rgba(255,255,255,.09)
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+ font-family:system-ui,Arial,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;
+ background:rgba(9,13,25,.94);backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--border)}
+.nav{max-width:1200px;margin:auto;padding:15px 22px;
+ display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{display:flex;align-items:center;gap:10px;
+ font-size:22px;font-weight:850;letter-spacing:-1px}
+.logo-icon{width:42px;height:42px;display:grid;place-items:center;
+ border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple))}
+.logo span{background:linear-gradient(90deg,#75a0ff,#bd91ff);
+ background-clip:text;-webkit-background-clip:text;color:transparent}
+.nav-links{display:flex;gap:20px;color:#c1c8d8;font-size:13px}
+.nav-links a:hover{color:white}
+.hero{max-width:1200px;margin:30px auto 0;padding:25px 22px 40px}
+.hero-box{padding:55px 40px;border:1px solid rgba(130,145,255,.19);
+ border-radius:25px;background:
+ radial-gradient(ellipse at 85% 20%,rgba(115,78,255,.26),transparent 45%),
+ radial-gradient(ellipse at 10% 100%,rgba(42,120,255,.19),transparent 45%),
+ linear-gradient(125deg,#141e36,#11152b 65%,#191332)}
+.tag{display:inline-block;color:#a9c0ff;background:rgba(91,126,255,.13);
+ border:1px solid rgba(116,145,255,.24);border-radius:30px;
+ padding:8px 14px;font-size:12px;margin-bottom:20px}
+.hero h1{max-width:670px;font-size:clamp(34px,6vw,58px);
+ line-height:1.12;letter-spacing:-2px;margin-bottom:17px}
+.hero h1 span{background:linear-gradient(90deg,#7da5ff,#b78aff);
+ background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{color:#b5bed2;line-height:1.7;max-width:540px}
+.search-box{max-width:570px;margin-top:27px;background:white;
+ border-radius:12px;display:flex;align-items:center;padding:5px 7px 5px 15px}
+.search-box input{min-width:0;flex:1;border:0;outline:0;
+ background:transparent;color:#182033;padding:12px}
+.search-box button,.primary{border:0;color:white;
+ background:linear-gradient(110deg,#477cff,#8655ee);
+ padding:12px 18px;border-radius:9px;font-weight:700}
+.container{max-width:1200px;padding:0 22px 60px;margin:auto}
+.section-head{display:flex;justify-content:space-between;align-items:center;
+ margin:20px 0;gap:15px}
+.section-head h2{font-size:23px}
+.section-head p{color:var(--muted);font-size:13px;margin-top:5px}
+.categories{display:flex;gap:10px;overflow-x:auto;padding:5px 0 18px}
+.categories button{flex-shrink:0;padding:10px 18px;border-radius:30px;
+ border:1px solid var(--border);color:#b8c2d7;background:var(--panel)}
+.categories button.active{background:linear-gradient(110deg,#477cff,#8155ed);
+ color:white;border-color:transparent}
+.apps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.app-card{background:linear-gradient(145deg,#151e30,#101727);
+ border:1px solid var(--border);border-radius:19px;padding:21px;min-width:0}
+.app-top{display:flex;align-items:center;gap:15px}
+.app-icon{width:65px;height:65px;flex-shrink:0;display:grid;
+ place-items:center;border-radius:18px;background:linear-gradient(135deg,#294f9f,#744ac4);
+ overflow:hidden;font-size:28px}
+.app-icon img{width:100%;height:100%;object-fit:cover}
+.app-info{min-width:0}
+.app-info h3{font-size:16px;margin-bottom:5px;overflow-wrap:anywhere}
+.app-info p{color:var(--muted);font-size:12px}
+.app-description{color:#aab5ca;font-size:13px;line-height:1.6;
+ margin:19px 0;min-height:42px;overflow-wrap:anywhere}
+.app-meta{display:flex;justify-content:space-between;gap:7px;
+ color:#9daac2;font-size:11px;margin-bottom:17px;flex-wrap:wrap}
+.app-meta span{background:rgba(255,255,255,.06);padding:6px 9px;border-radius:7px}
+.download{display:block;text-align:center;background:linear-gradient(110deg,#477cff,#8655ee);
+ padding:12px;color:white;font-size:13px;font-weight:750;border-radius:10px}
+.empty{display:none;text-align:center;padding:40px 10px;color:var(--muted);grid-column:1/-1}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:55px}
+.feature{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:23px}
+.feature h3{font-size:15px;margin:10px 0}
+.feature p{color:var(--muted);font-size:12px;line-height:1.7}
+footer{border-top:1px solid var(--border);background:#0c1120;padding:30px 22px}
+.footer-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;
+ align-items:center;gap:20px;flex-wrap:wrap}
+footer p,footer a{color:var(--muted);font-size:12px}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ADMINISTRACION */
+.admin-wrap{max-width:950px;margin:30px auto;padding:0 18px 60px}
+.admin-panel{background:var(--panel);border:1px solid var(--border);
+ border-radius:18px;padding:23px;margin-bottom:20px}
+.admin-panel h2,.admin-panel h3{margin-bottom:15px}
+.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:#b8c2d7}
+.field input,.field textarea,.field select{
+ width:100%;background:#0b1221;color:white;border:1px solid #34415b;
+ border-radius:9px;padding:12px;outline:none
 }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, Arial, sans-serif;
-  min-height: 100vh;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button, input {
-  font: inherit;
-}
-
-/* BARRA SUPERIOR */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(9,13,25,.92);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  padding: 17px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 23px;
-  font-weight: 850;
-  letter-spacing: -1px;
-}
-
-.logo-icon {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
-  border-radius: 13px;
-  background: linear-gradient(135deg,var(--blue),var(--purple));
-  font-size: 23px;
-}
-
-.logo span {
-  background: linear-gradient(90deg,#75a0ff,#bd91ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 27px;
-  color: #c1c8d8;
-  font-size: 14px;
-}
-
-.nav-links a:hover {
-  color: white;
-}
-
-/* PORTADA */
-
-.hero {
-  max-width: 1200px;
-  margin: 35px auto 0;
-  padding: 30px 22px 45px;
-}
-
-.hero-box {
-  position: relative;
-  overflow: hidden;
-  padding: 65px 48px;
-  border: 1px solid rgba(130,145,255,.19);
-  border-radius: 27px;
-  background:
-    radial-gradient(ellipse at 85% 20%,rgba(115,78,255,.26),transparent 45%),
-    radial-gradient(ellipse at 10% 100%,rgba(42,120,255,.19),transparent 45%),
-    linear-gradient(125deg,#141e36,#11152b 65%,#191332);
-}
-
-.hero-box:after {
-  content: "✦";
-  position: absolute;
-  right: 9%;
-  top: 10px;
-  font-size: 170px;
-  color: rgba(255,255,255,.07);
-  pointer-events: none;
-}
-
-.tag {
-  display: inline-block;
-  color: #a9c0ff;
-  background: rgba(91,126,255,.13);
-  border: 1px solid rgba(116,145,255,.24);
-  border-radius: 30px;
-  padding: 8px 14px;
-  font-size: 12px;
-  margin-bottom: 22px;
-}
-
-.hero h1 {
-  max-width: 670px;
-  font-size: clamp(34px,6vw,58px);
-  line-height: 1.12;
-  letter-spacing: -2px;
-  margin-bottom: 17px;
-}
-
-.hero h1 span {
-  background: linear-gradient(90deg,#7da5ff,#b78aff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.hero p {
-  color: #b5bed2;
-  line-height: 1.7;
-  max-width: 540px;
-  font-size: 16px;
-}
-
-/* BUSCADOR */
-
-.search-box {
-  max-width: 570px;
-  margin-top: 30px;
-  background: #ffffff;
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  padding: 5px 7px 5px 16px;
-  gap: 10px;
-}
-
-.search-box span {
-  color: #68748a;
-  font-size: 21px;
-}
-
-.search-box input {
-  min-width: 0;
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #182033;
-  padding: 12px 0;
-}
-
-.search-box button {
-  border: none;
-  background: linear-gradient(120deg,var(--blue),var(--purple));
-  color: white;
-  padding: 12px 18px;
-  border-radius: 9px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-/* CONTENIDO */
-
-.container {
-  max-width: 1200px;
-  padding: 0 22px 60px;
-  margin: auto;
-}
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 0;
-  gap: 15px;
-}
-
-.section-head h2 {
-  font-size: 23px;
-  letter-spacing: -.5px;
-}
-
-.section-head p {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.categories {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 5px 0 18px;
-  scrollbar-width: none;
-}
-
-.categories button {
-  flex-shrink: 0;
-  padding: 10px 19px;
-  border-radius: 30px;
-  border: 1px solid var(--border);
-  color: #b8c2d7;
-  background: var(--panel);
-  cursor: pointer;
-  transition: .2s;
-}
-
-.categories button:hover,
-.categories button.active {
-  background: linear-gradient(110deg,#477cff,#8155ed);
-  border-color: transparent;
-  color: white;
-}
-
-/* TARJETAS */
-
-.apps-grid {
-  display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: 19px;
-}
-
-.app-card {
-  background: linear-gradient(145deg,#151e30,#101727);
-  border: 1px solid var(--border);
-  border-radius: 19px;
-  padding: 21px;
-  transition: .25s;
-}
-
-.app-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(116,145,255,.45);
-  box-shadow: 0 15px 35px rgba(0,0,0,.2);
-}
-
-.app-top {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.app-icon {
-  width: 65px;
-  height: 65px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  font-size: 31px;
-  background: linear-gradient(135deg,#294f9f,#744ac4);
-  box-shadow: 0 8px 20px rgba(75,90,220,.2);
-}
-
-.app-info {
-  min-width: 0;
-}
-
-.app-info h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.app-info p {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.app-description {
-  color: #aab5ca;
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 19px 0;
-  min-height: 42px;
-}
-
-.app-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  color: #9daac2;
-  font-size: 11px;
-  margin-bottom: 17px;
-}
-
-.app-meta span {
-  background: rgba(255,255,255,.06);
-  padding: 6px 9px;
-  border-radius: 7px;
-}
-
-.download {
-  display: block;
-  text-align: center;
-  background: linear-gradient(110deg,#477cff,#8655ee);
-  padding: 12px;
-  color: white;
-  font-size: 13px;
-  font-weight: 750;
-  border-radius: 10px;
-  transition: .2s;
-}
-
-.download:hover {
-  filter: brightness(1.15);
-}
-
-.empty {
-  display: none;
-  text-align: center;
-  padding: 40px 10px;
-  color: var(--muted);
-  grid-column: 1/-1;
-}
-
-/* VENTAJAS */
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 16px;
-  margin-top: 55px;
-}
-
-.feature {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 23px;
-}
-
-.feature-icon {
-  font-size: 26px;
-  margin-bottom: 13px;
-}
-
-.feature h3 {
-  font-size: 15px;
-  margin-bottom: 8px;
-}
-
-.feature p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-/* PIE */
-
-footer {
-  border-top: 1px solid var(--border);
-  background: #0c1120;
-  padding: 35px 22px;
-}
-
-.footer-inner {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-footer p {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-footer a {
-  color: #a9baff;
-  font-size: 12px;
-}
-
-@media(max-width:850px) {
-  .apps-grid {
-    grid-template-columns: repeat(2,minmax(0,1fr));
-  }
-}
-
-@media(max-width:600px) {
-  .nav {
-    padding: 13px 17px;
-  }
-
-  .nav-links {
-    gap: 13px;
-    font-size: 12px;
-  }
-
-  .hero {
-    margin-top: 15px;
-    padding: 15px 14px 30px;
-  }
-
-  .hero-box {
-    padding: 40px 23px;
-    border-radius: 20px;
-  }
-
-  .hero h1 {
-    letter-spacing: -1.4px;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  .container {
-    padding: 0 15px 45px;
-  }
-
-  .apps-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-    margin-top: 35px;
-  }
-
-  .section-head h2 {
-    font-size: 20px;
-  }
-}
-
-@media(max-width:370px) {
-  .nav-links {
-    gap: 8px;
-  }
+.field textarea{min-height:85px;resize:vertical}
+.admin-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.secondary{background:#27344d;color:white;border:1px solid #3b4b69;
+ padding:11px 15px;border-radius:9px}
+.danger{background:#7e293c;color:white;border:0;padding:9px 12px;border-radius:8px}
+.success{color:#79e5a7;font-size:13px;margin-top:12px}
+.error{color:#ff9aab;font-size:13px;margin-top:12px}
+.admin-item{display:flex;align-items:center;justify-content:space-between;
+ gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
+.admin-item small{display:block;color:var(--muted);margin-top:5px}
+.admin-item-actions{display:flex;gap:7px;flex-wrap:wrap}
+.hidden{display:none!important}
+.status{font-size:12px;color:#9fb5ff;margin-top:10px}
+@media(max-width:850px){.apps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+ .nav{padding:12px 15px}.nav-links{gap:11px;font-size:11px}
+ .logo{font-size:19px}.logo-icon{width:36px;height:36px}
+ .hero{margin-top:12px;padding:12px 14px 28px}
+ .hero-box{padding:38px 22px;border-radius:19px}
+ .hero h1{letter-spacing:-1px}.container{padding:0 15px 40px}
+ .apps-grid,.features{grid-template-columns:1fr}
+ .features{margin-top:35px}.admin-form{grid-template-columns:1fr}
+ .field.full{grid-column:auto}.admin-panel{padding:17px}
+ .admin-item{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
@@ -480,233 +136,496 @@ footer a {
 <body>
 
 <header>
-  <nav class="nav">
-    <a href="#" class="logo">
-      <div class="logo-icon">▣</div>
-      APP<span>STORE</span>
-    </a>
-
-    <div class="nav-links">
-      <a href="#">Inicio</a>
-      <a href="#aplicaciones">Aplicaciones</a>
-      <a href="#nosotros">Acerca de</a>
-    </div>
-  </nav>
+ <nav class="nav">
+  <a href="#" class="logo"><div class="logo-icon">▣</div>APP<span>STORE</span></a>
+  <div class="nav-links">
+   <a href="#">Inicio</a>
+   <a href="#aplicaciones">Aplicaciones</a>
+   <a href="#nosotros">Acerca de</a>
+  </div>
+ </nav>
 </header>
 
-<section class="hero">
+<!-- TIENDA PUBLICA -->
+<div id="storeView">
+ <section class="hero">
   <div class="hero-box">
-
-    <div class="tag">✦ TU CENTRO DE DESCARGAS ANDROID</div>
-
-    <h1>
-      Descubre nuevas
-      <span>aplicaciones.</span>
-    </h1>
-
-    <p>
-      Explora nuestra colección de aplicaciones Android.
-      Encuentra lo que necesitas y descarga tus apps
-      favoritas de manera sencilla.
-    </p>
-
-    <div class="search-box">
-      <span>⌕</span>
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Buscar aplicaciones..."
-        aria-label="Buscar aplicaciones"
-      >
-      <button onclick="searchApps()">Buscar</button>
-    </div>
-
+   <div class="tag">✦ TU CENTRO DE DESCARGAS ANDROID</div>
+   <h1>Descubre nuevas <span>aplicaciones.</span></h1>
+   <p>Explora nuestra colección de aplicaciones Android.
+   Encuentra lo que necesitas y descarga tus apps favoritas de manera sencilla.</p>
+   <div class="search-box">
+    <input id="searchInput" type="search" placeholder="Buscar aplicaciones..."
+    aria-label="Buscar aplicaciones">
+    <button id="searchButton">Buscar</button>
+   </div>
   </div>
-</section>
+ </section>
 
-<main class="container" id="aplicaciones">
-
+ <main class="container" id="aplicaciones">
   <div class="section-head">
-    <div>
-      <h2>Explorar aplicaciones</h2>
-      <p>Descubre nuestra colección para Android.</p>
-    </div>
+   <div><h2>Explorar aplicaciones</h2>
+   <p>Descubre nuestra colección para Android.</p></div>
   </div>
-
-  <div class="categories">
-    <button class="active" data-category="todos">Todas</button>
-    <button data-category="personalizacion">Personalización</button>
-    <button data-category="herramientas">Herramientas</button>
-    <button data-category="entretenimiento">Entretenimiento</button>
+  <div class="categories" id="categories">
+   <button class="active" data-category="todos">Todas</button>
+   <button data-category="personalizacion">Personalización</button>
+   <button data-category="herramientas">Herramientas</button>
+   <button data-category="entretenimiento">Entretenimiento</button>
   </div>
-
   <div class="apps-grid" id="appsGrid">
-
-    <!-- APLICACIÓN 1 -->
-
-    <article class="app-card"
-      data-name="stickers whatsapp"
-      data-category="personalizacion">
-
-      <div class="app-top">
-        <div class="app-icon">🎨</div>
-
-        <div class="app-info">
-          <h3>Stickers WhatsApp</h3>
-          <p>Aplicación Android</p>
-        </div>
-      </div>
-
-      <p class="app-description">
-        Descubre paquetes de stickers para personalizar
-        tus conversaciones y compartir con tus amigos.
-      </p>
-
-      <div class="app-meta">
-        <span>Android</span>
-        <span>Versión 1.0.0</span>
-        <span>APK</span>
-      </div>
-
-      <a class="download"
-        href="https://github.com/crzjose/mis-aplicaciones/releases/latest"
-        target="_blank"
-        rel="noopener">
-        ↓ VER DESCARGA
-      </a>
-
-    </article>
-
-    <!-- PRÓXIMAMENTE -->
-
-    <article class="app-card"
-      data-name="nuevas aplicaciones"
-      data-category="herramientas">
-
-      <div class="app-top">
-        <div class="app-icon"
-          style="background:linear-gradient(135deg,#246d73,#3477ad)">
-          ✨
-        </div>
-
-        <div class="app-info">
-          <h3>Próximamente</h3>
-          <p>Nuevas aplicaciones</p>
-        </div>
-      </div>
-
-      <p class="app-description">
-        Estamos preparando nuevas aplicaciones.
-        Muy pronto encontrarás más contenido aquí.
-      </p>
-
-      <div class="app-meta">
-        <span>Próximamente</span>
-        <span>Android</span>
-      </div>
-
-      <div class="download"
-        style="background:#29364b;color:#9eacc5">
-        MUY PRONTO
-      </div>
-
-    </article>
-
-    <div class="empty" id="empty">
-      <div style="font-size:35px;margin-bottom:12px">🔎</div>
-      <h3>No encontramos aplicaciones</h3>
-      <p>Prueba con otro nombre o categoría.</p>
-    </div>
-
+   <div class="empty" id="empty" style="display:block">
+    Cargando aplicaciones...
+   </div>
   </div>
 
   <section class="features" id="nosotros">
-
-    <div class="feature">
-      <div class="feature-icon">📲</div>
-      <h3>Descargas sencillas</h3>
-      <p>Accede a las descargas de tus aplicaciones desde un solo lugar.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">🔄</div>
-      <h3>Actualizaciones</h3>
-      <p>Consulta las nuevas versiones de las aplicaciones disponibles.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">🛡️</div>
-      <h3>Información clara</h3>
-      <p>Consulta el nombre, versión y detalles de cada aplicación antes de descargar.</p>
-    </div>
-
+   <div class="feature"><div>📲</div><h3>Descargas sencillas</h3>
+    <p>Accede a las descargas de tus aplicaciones desde un solo lugar.</p></div>
+   <div class="feature"><div>🔄</div><h3>Actualizaciones</h3>
+    <p>Consulta las nuevas versiones de las aplicaciones disponibles.</p></div>
+   <div class="feature"><div>🛡️</div><h3>Información clara</h3>
+    <p>Consulta los detalles de cada aplicación antes de descargar.</p></div>
   </section>
+ </main>
+</div>
 
-</main>
+<!-- ACCESO ADMINISTRADOR -->
+<section id="loginView" class="admin-wrap hidden">
+ <div class="admin-panel">
+  <h2>🔐 Acceso de administrador</h2>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:18px">
+   Inicia sesión con una cuenta autorizada.
+  </p>
+  <form id="loginForm">
+   <div class="field">
+    <label>Correo electrónico</label>
+    <input id="loginEmail" type="email" autocomplete="username" required>
+   </div>
+   <div class="field" style="margin-top:13px">
+    <label>Contraseña</label>
+    <input id="loginPassword" type="password" autocomplete="current-password" required>
+   </div>
+   <div class="admin-actions">
+    <button class="primary" type="submit">Iniciar sesión</button>
+    <button class="secondary" type="button" id="backStore">Volver a la tienda</button>
+   </div>
+  </form>
+  <p id="loginMessage"></p>
+ </div>
+</section>
+
+<!-- PANEL PRIVADO -->
+<section id="adminView" class="admin-wrap hidden">
+ <div class="admin-panel">
+  <h2>⚙️ Panel de administración</h2>
+  <p id="adminEmail" class="status"></p>
+  <div class="admin-actions">
+   <button class="secondary" id="storeButton">Ver tienda</button>
+   <button class="secondary" id="logoutButton">Cerrar sesión</button>
+  </div>
+ </div>
+
+ <div class="admin-panel">
+  <h3 id="formTitle">➕ Agregar aplicación</h3>
+  <form id="appForm">
+   <div class="admin-form">
+    <div class="field full">
+     <label>Nombre de la aplicación</label>
+     <input id="appName" maxlength="100" required>
+    </div>
+    <div class="field full">
+     <label>Descripción</label>
+     <textarea id="appDescription" maxlength="1000" required></textarea>
+    </div>
+    <div class="field">
+     <label>Versión</label>
+     <input id="appVersion" placeholder="1.0.0" required>
+    </div>
+    <div class="field">
+     <label>Categoría</label>
+     <select id="appCategory">
+      <option value="personalizacion">Personalización</option>
+      <option value="herramientas">Herramientas</option>
+      <option value="entretenimiento">Entretenimiento</option>
+     </select>
+    </div>
+    <div class="field full">
+     <label>Enlace de descarga APK (GitHub Releases)</label>
+     <input id="appDownload" type="url" placeholder="https://github.com/usuario/repositorio/releases" required>
+    </div>
+    <div class="field full">
+     <label>Enlace de imagen o icono (URL pública)</label>
+     <input id="appImage" type="url" placeholder="https://...">
+    </div>
+    <div class="field">
+     <label>Publicación</label>
+     <select id="appActive">
+      <option value="true">Publicada</option>
+      <option value="false">Oculta / borrador</option>
+     </select>
+    </div>
+   </div>
+   <div class="admin-actions">
+    <button class="primary" type="submit" id="saveApp">Guardar aplicación</button>
+    <button class="secondary hidden" type="button" id="cancelEdit">Cancelar edición</button>
+   </div>
+   <p id="formMessage"></p>
+  </form>
+ </div>
+
+ <div class="admin-panel">
+  <h3>📱 Aplicaciones registradas</h3>
+  <div id="adminApps">Cargando...</div>
+ </div>
+</section>
 
 <footer>
-  <div class="footer-inner">
-    <a href="#" class="logo">
-      <div class="logo-icon">▣</div>
-      APP<span>STORE</span>
-    </a>
-
-    <p>© 2026 APPSTORE. Todos los derechos reservados.</p>
-
-    <a href="soportealcliente828@gmail.com">Contacto</a>
-  </div>
+ <div class="footer-inner">
+  <a href="#" class="logo"><div class="logo-icon">▣</div>APP<span>STORE</span></a>
+  <p>© 2026 APPSTORE. Todos los derechos reservados.</p>
+  <a href="mailto:soportealcliente828@gmail.com">Contacto</a>
+ </div>
 </footer>
 
-<script>
-const searchInput = document.getElementById("searchInput");
-const cards = document.querySelectorAll(".app-card");
-const categoryButtons = document.querySelectorAll(".categories button");
-const empty = document.getElementById("empty");
+<script type="module">
+import { initializeApp } from
+ "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
-let selectedCategory = "todos";
+import {
+ getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-function filterApps() {
-  const query = searchInput.value.toLowerCase().trim();
-  let visible = 0;
+import {
+ getFirestore, collection, getDocs, addDoc, doc, getDoc,
+ updateDoc, deleteDoc, query, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-  cards.forEach(card => {
-    const name = card.dataset.name.toLowerCase();
-    const category = card.dataset.category;
+// CONFIGURACION DE TU PROYECTO
+const firebaseConfig = {
+ apiKey: "AIzaSyC0iSaNWOIFT8GGFZjlNbUsYNO9vACzcT8",
+ authDomain: "mis-aplicaciones-e89bd.firebaseapp.com",
+ projectId: "mis-aplicaciones-e89bd",
+ storageBucket: "mis-aplicaciones-e89bd.firebasestorage.app",
+ messagingSenderId: "221000130649",
+ appId: "1:221000130649:web:591beb91875c8c00199148"
+};
 
-    const matchesName = name.includes(query);
-    const matchesCategory =
-      selectedCategory === "todos" ||
-      category === selectedCategory;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    const show = matchesName && matchesCategory;
+const $ = id => document.getElementById(id);
+let editingId = null;
+let allApps = [];
+let category = "todos";
 
-    card.style.display = show ? "block" : "none";
-
-    if (show) visible++;
-  });
-
-  empty.style.display = visible === 0 ? "block" : "none";
+function showView(view){
+ ["storeView","loginView","adminView"].forEach(id =>
+  $(id).classList.toggle("hidden",id !== view)
+ );
 }
 
-function searchApps() {
-  filterApps();
-  document.getElementById("aplicaciones").scrollIntoView({
-    behavior: "smooth"
-  });
+function message(id,text,type="success"){
+ $(id).textContent = text;
+ $(id).className = type;
 }
 
-searchInput.addEventListener("input", filterApps);
+function safeUrl(value){
+ try{
+  const url = new URL(value);
+  return url.protocol === "https:" ? url.href : "";
+ }catch{return "";}
+}
 
-categoryButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    categoryButtons.forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
+// CATALOGO PUBLICO
+async function loadApps(){
+ const grid = $("appsGrid");
+ grid.innerHTML = "";
+ try{
+  const snapshot = await getDocs(
+   query(collection(db,"apps"),where("active","==",true))
+  );
+  allApps = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+  renderApps();
+ }catch(error){
+  console.error(error);
+  grid.textContent = "No se pudo cargar el catálogo. Intenta más tarde.";
+ }
+}
 
-    selectedCategory = button.dataset.category;
-    filterApps();
+function renderApps(){
+ const grid = $("appsGrid");
+ grid.innerHTML = "";
+ const search = $("searchInput").value.toLowerCase().trim();
+ const filtered = allApps.filter(a=>{
+  const name = String(a.name || "").toLowerCase();
+  const desc = String(a.description || "").toLowerCase();
+  return (category==="todos" || a.category===category) &&
+   (name.includes(search)||desc.includes(search));
+ });
+
+ if(!filtered.length){
+  const empty = document.createElement("div");
+  empty.className="empty";
+  empty.style.display="block";
+  empty.textContent="🔎 No encontramos aplicaciones disponibles.";
+  grid.appendChild(empty);
+  return;
+ }
+
+ filtered.forEach(a=>{
+  const card=document.createElement("article");
+  card.className="app-card";
+
+  const top=document.createElement("div");
+  top.className="app-top";
+  const icon=document.createElement("div");
+  icon.className="app-icon";
+
+  const image=safeUrl(a.imageUrl || "");
+  if(image){
+   const img=document.createElement("img");
+   img.src=image;
+   img.alt="Icono de "+(a.name || "aplicación");
+   img.onerror=()=>{img.remove();icon.textContent="📱"};
+   icon.appendChild(img);
+  }else icon.textContent="📱";
+
+  const info=document.createElement("div");
+  info.className="app-info";
+  const title=document.createElement("h3");
+  title.textContent=a.name || "Aplicación";
+  const subtitle=document.createElement("p");
+  subtitle.textContent="Aplicación Android";
+  info.append(title,subtitle);
+  top.append(icon,info);
+
+  const desc=document.createElement("p");
+  desc.className="app-description";
+  desc.textContent=a.description || "";
+
+  const meta=document.createElement("div");
+  meta.className="app-meta";
+  [ "Android", "Versión "+(a.version || "1.0"), "APK" ].forEach(t=>{
+   const span=document.createElement("span");
+   span.textContent=t;
+   meta.appendChild(span);
   });
+
+  const link=safeUrl(a.downloadUrl || "");
+  if(link){
+   const download=document.createElement("a");
+   download.className="download";
+   download.href=link;
+   download.target="_blank";
+   download.rel="noopener noreferrer";
+   download.textContent="↓ VER DESCARGA";
+   card.append(top,desc,meta,download);
+  }else{
+   card.append(top,desc,meta);
+  }
+  grid.appendChild(card);
+ });
+}
+
+$("searchInput").addEventListener("input",renderApps);
+$("searchButton").addEventListener("click",()=>{
+ $("aplicaciones").scrollIntoView({behavior:"smooth"});
+ renderApps();
 });
-</script>
 
+$("categories").addEventListener("click",e=>{
+ const btn=e.target.closest("button[data-category]");
+ if(!btn)return;
+ document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ category=btn.dataset.category;
+ renderApps();
+});
+
+// RUTA DE ADMINISTRACION
+function route(){
+ if(location.hash==="#admin"){
+  if(auth.currentUser) checkAdmin(auth.currentUser);
+  else showView("loginView");
+ }else{
+  showView("storeView");
+ }
+}
+window.addEventListener("hashchange",route);
+
+$("backStore").onclick=()=>location.hash="";
+$("storeButton").onclick=()=>location.hash="";
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ message("loginMessage","Iniciando sesión...");
+ try{
+  await signInWithEmailAndPassword(auth,$("loginEmail").value,$("loginPassword").value);
+ }catch(error){
+  message("loginMessage","No se pudo iniciar sesión. Revisa correo y contraseña.","error");
+  console.error(error);
+ }
+});
+
+async function checkAdmin(user){
+ try{
+  const snap=await getDoc(doc(db,"admins",user.uid));
+  if(!snap.exists() || snap.data().role!=="admin" || snap.data().active!==true){
+   await signOut(auth);
+   message("loginMessage","Esta cuenta no tiene permisos de administrador.","error");
+   showView("loginView");
+   return;
+  }
+  $("adminEmail").textContent="Sesión: "+(user.email || "Administrador");
+  showView("adminView");
+  resetForm();
+  loadAdminApps();
+ }catch(error){
+  console.error(error);
+  showView("loginView");
+  message("loginMessage","No se pudo verificar el permiso de administrador.","error");
+ }
+}
+
+onAuthStateChanged(auth,user=>{
+ if(location.hash==="#admin"){
+  if(user) checkAdmin(user);
+  else showView("loginView");
+ }
+});
+
+$("logoutButton").onclick=async()=>{
+ await signOut(auth);
+ location.hash="";
+};
+
+// FORMULARIO DE APLICACIONES
+function resetForm(){
+ editingId=null;
+ $("appForm").reset();
+ $("formTitle").textContent="➕ Agregar aplicación";
+ $("saveApp").textContent="Guardar aplicación";
+ $("cancelEdit").classList.add("hidden");
+ message("formMessage","");
+}
+
+$("cancelEdit").onclick=resetForm;
+
+$("appForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!auth.currentUser)return;
+ const download=safeUrl($("appDownload").value.trim());
+ const image=$("appImage").value.trim();
+ if(!download){
+  message("formMessage","El enlace de descarga debe ser una URL HTTPS válida.","error");
+  return;
+ }
+ if(image && !safeUrl(image)){
+  message("formMessage","El enlace de imagen debe ser HTTPS.","error");
+  return;
+ }
+
+ const data={
+  name:$("appName").value.trim(),
+  description:$("appDescription").value.trim(),
+  version:$("appVersion").value.trim(),
+  category:$("appCategory").value,
+  downloadUrl:download,
+  imageUrl:image,
+  active:$("appActive").value==="true",
+  updatedAt:serverTimestamp()
+ };
+
+ try{
+  $("saveApp").disabled=true;
+  if(editingId){
+   await updateDoc(doc(db,"apps",editingId),data);
+   message("formMessage","Aplicación actualizada correctamente.");
+  }else{
+   data.createdAt=serverTimestamp();
+   await addDoc(collection(db,"apps"),data);
+   message("formMessage","Aplicación agregada correctamente.");
+  }
+  resetForm();
+  await loadAdminApps();
+  await loadApps();
+ }catch(error){
+  console.error(error);
+  message("formMessage","No se pudo guardar. Verifica las reglas de Firestore.","error");
+ }finally{
+  $("saveApp").disabled=false;
+ }
+});
+
+async function loadAdminApps(){
+ const area=$("adminApps");
+ area.textContent="Cargando...";
+ try{
+  const snap=await getDocs(collection(db,"apps"));
+  area.innerHTML="";
+  if(snap.empty){area.textContent="Todavía no hay aplicaciones.";return;}
+  snap.forEach(d=>{
+   const a=d.data();
+   const row=document.createElement("div");
+   row.className="admin-item";
+   const details=document.createElement("div");
+   const name=document.createElement("strong");
+   name.textContent=a.name || "Sin nombre";
+   const small=document.createElement("small");
+   small.textContent="Versión "+(a.version||"-")+" · "+(a.active?"Publicada":"Oculta");
+   details.append(name,small);
+
+   const actions=document.createElement("div");
+   actions.className="admin-item-actions";
+   const edit=document.createElement("button");
+   edit.className="secondary";
+   edit.textContent="Editar";
+   edit.onclick=()=>editApp(d.id,a);
+   const remove=document.createElement("button");
+   remove.className="danger";
+   remove.textContent="Eliminar";
+   remove.onclick=()=>removeApp(d.id,a.name);
+   actions.append(edit,remove);
+   row.append(details,actions);
+   area.appendChild(row);
+  });
+ }catch(error){
+  console.error(error);
+  area.textContent="Error al cargar las aplicaciones.";
+ }
+}
+
+function editApp(id,a){
+ editingId=id;
+ $("appName").value=a.name||"";
+ $("appDescription").value=a.description||"";
+ $("appVersion").value=a.version||"";
+ $("appCategory").value=a.category||"herramientas";
+ $("appDownload").value=a.downloadUrl||"";
+ $("appImage").value=a.imageUrl||"";
+ $("appActive").value=String(a.active===true);
+ $("formTitle").textContent="✏️ Editar aplicación";
+ $("saveApp").textContent="Guardar cambios";
+ $("cancelEdit").classList.remove("hidden");
+ $("appForm").scrollIntoView({behavior:"smooth"});
+}
+
+async function removeApp(id,name){
+ if(!confirm("¿Seguro que deseas eliminar "+(name||"esta aplicación")+"?"))return;
+ try{
+  await deleteDoc(doc(db,"apps",id));
+  await loadAdminApps();
+  await loadApps();
+ }catch(error){
+  console.error(error);
+  alert("No se pudo eliminar. Revisa tus permisos.");
+ }
+}
+
+// INICIO
+loadApps();
+route();
+</script>
 </body>
 </html>
