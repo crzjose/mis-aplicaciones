@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090d19">
 <meta name="description" content="APPSTORE: descubre y descarga aplicaciones Android.">
-<title>APPSTORE | Centro de aplicaciones</title>
+<title>APPS TORE | Centro de aplicaciones</title>
 
 <style>
 :root{
@@ -62,6 +62,33 @@ header{position:sticky;top:0;z-index:20;background:rgba(9,13,25,.94);backdrop-fi
 footer{border-top:1px solid var(--border);background:#0c1120;padding:30px 22px}
 .footer-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 footer p,footer a{color:var(--muted);font-size:12px}
+
+/* GALERIA DE CAPTURAS */
+.gallery-label{
+ color:#aab5ca;
+ font-size:12px;
+ margin:0 0 9px;
+}
+.app-gallery{
+ display:flex;
+ gap:10px;
+ overflow-x:auto;
+ padding:4px 2px 13px;
+ margin:0 0 17px;
+ scroll-snap-type:x mandatory;
+ scrollbar-width:thin;
+ scrollbar-color:#5685ff #172033;
+}
+.app-gallery img{
+ width:145px;
+ height:260px;
+ flex:0 0 auto;
+ object-fit:cover;
+ border-radius:12px;
+ border:1px solid rgba(255,255,255,.12);
+ scroll-snap-align:start;
+ background:#172033;
+}
 
 /* ADMINISTRACION */
 .admin-wrap{max-width:950px;margin:30px auto;padding:0 18px 60px}
@@ -214,6 +241,16 @@ footer p,footer a{color:var(--muted);font-size:12px}
      <label>Enlace de imagen o icono (URL pública)</label>
      <input id="appImage" type="url" placeholder="https://...">
     </div>
+
+    <!-- NUEVO CAMPO: CAPTURAS -->
+    <div class="field full">
+     <label>📸 Capturas de pantalla (máximo 5, una URL por línea)</label>
+     <textarea id="appScreenshots" placeholder="https://.../captura-1.png&#10;https://.../captura-2.png&#10;https://.../captura-3.png&#10;https://.../captura-4.png&#10;https://.../captura-5.png"></textarea>
+     <small style="color:var(--muted);font-size:11px;line-height:1.5">
+      Pega los enlaces públicos de tus imágenes. Puedes dejar este campo vacío si no deseas mostrar capturas.
+     </small>
+    </div>
+
     <div class="field">
      <label>Publicación</label>
      <select id="appActive">
@@ -308,9 +345,9 @@ function safeUrl(value){
  }catch{
   return "";
  }
-}
 
 // CATALOGO PUBLICO
+}
 async function loadApps(){
  const grid=$("appsGrid");
  grid.innerHTML="Cargando aplicaciones...";
@@ -393,6 +430,11 @@ function renderApps(){
   desc.className="app-description";
   desc.textContent=a.description || "";
 
+  // NUEVO: CONSTRUIR GALERIA DE CAPTURAS
+  const screenshots=Array.isArray(a.screenshots)
+   ? a.screenshots.map(safeUrl).filter(Boolean).slice(0,5)
+   : [];
+
   const meta=document.createElement("div");
   meta.className="app-meta";
 
@@ -404,6 +446,32 @@ function renderApps(){
 
   const link=safeUrl(a.downloadUrl || "");
 
+  // Se prepara el contenido en orden para no ocultar
+  // el nombre ni la descripción cuando no hay capturas.
+  const cardContent=[top,desc];
+
+  if(screenshots.length){
+   const galleryLabel=document.createElement("p");
+   galleryLabel.className="gallery-label";
+   galleryLabel.textContent="📸 Imágenes de muestra";
+
+   const gallery=document.createElement("div");
+   gallery.className="app-gallery";
+
+   screenshots.forEach((url,index)=>{
+    const img=document.createElement("img");
+    img.src=url;
+    img.alt="Captura "+(index+1)+" de "+(a.name || "aplicación");
+    img.loading="lazy";
+    img.onerror=()=>img.remove();
+    gallery.appendChild(img);
+   });
+
+   cardContent.push(galleryLabel,gallery);
+  }
+
+  cardContent.push(meta);
+
   if(link){
    const download=document.createElement("a");
    download.className="download";
@@ -411,11 +479,10 @@ function renderApps(){
    download.target="_blank";
    download.rel="noopener noreferrer";
    download.textContent="↓ VER DESCARGA";
-   card.append(top,desc,meta,download);
-  }else{
-   card.append(top,desc,meta);
+   cardContent.push(download);
   }
 
+  card.append(...cardContent);
   grid.appendChild(card);
  });
 }
@@ -657,6 +724,23 @@ $("appForm").addEventListener("submit",async e=>{
   return;
  }
 
+ // NUEVO: LEER Y VALIDAR LAS CAPTURAS
+ const screenshotsText=$("appScreenshots").value.trim();
+
+ const screenshots=screenshotsText
+  ? screenshotsText.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)
+  : [];
+
+ if(screenshots.length>5){
+  message("formMessage","Solo puedes agregar un máximo de 5 capturas.","error");
+  return;
+ }
+
+ if(screenshots.some(s=>!safeUrl(s))){
+  message("formMessage","Todas las capturas deben tener una URL HTTPS válida. Revisa los enlaces.","error");
+  return;
+ }
+
  const data={
   name:$("appName").value.trim(),
   description:$("appDescription").value.trim(),
@@ -664,6 +748,7 @@ $("appForm").addEventListener("submit",async e=>{
   category:$("appCategory").value,
   downloadUrl:download,
   imageUrl:image,
+  screenshots:screenshots,
   active:$("appActive").value==="true",
   updatedAt:serverTimestamp()
  };
@@ -761,6 +846,12 @@ function editApp(id,a){
  $("appCategory").value=a.category||"herramientas";
  $("appDownload").value=a.downloadUrl||"";
  $("appImage").value=a.imageUrl||"";
+
+ // NUEVO: RECUPERAR LAS CAPTURAS AL EDITAR
+ $("appScreenshots").value=Array.isArray(a.screenshots)
+  ? a.screenshots.join("\n")
+  : "";
+
  $("appActive").value=String(a.active===true);
 
  $("formTitle").textContent="✏️ Editar aplicación";
