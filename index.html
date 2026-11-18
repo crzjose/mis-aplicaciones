@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090d19">
 <meta name="description" content="APPSTORE: descubre y descarga aplicaciones Android.">
-<title>APPS TORE | Centro de aplicaciones</title>
+<title>APPSTORE | Centro de aplicaciones</title>
 
 <style>
 :root{
@@ -64,31 +64,9 @@ footer{border-top:1px solid var(--border);background:#0c1120;padding:30px 22px}
 footer p,footer a{color:var(--muted);font-size:12px}
 
 /* GALERIA DE CAPTURAS */
-.gallery-label{
- color:#aab5ca;
- font-size:12px;
- margin:0 0 9px;
-}
-.app-gallery{
- display:flex;
- gap:10px;
- overflow-x:auto;
- padding:4px 2px 13px;
- margin:0 0 17px;
- scroll-snap-type:x mandatory;
- scrollbar-width:thin;
- scrollbar-color:#5685ff #172033;
-}
-.app-gallery img{
- width:145px;
- height:260px;
- flex:0 0 auto;
- object-fit:cover;
- border-radius:12px;
- border:1px solid rgba(255,255,255,.12);
- scroll-snap-align:start;
- background:#172033;
-}
+.gallery-label{color:#aab5ca;font-size:12px;margin:0 0 9px}
+.app-gallery{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 13px;margin:0 0 17px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#5685ff #172033}
+.app-gallery img{width:145px;height:260px;flex:0 0 auto;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,.12);scroll-snap-align:start;background:#172033}
 
 /* ADMINISTRACION */
 .admin-wrap{max-width:950px;margin:30px auto;padding:0 18px 60px}
@@ -111,6 +89,21 @@ footer p,footer a{color:var(--muted);font-size:12px}
 .hidden{display:none!important}
 .status{font-size:12px;color:#9fb5ff;margin-top:10px}
 .debug{font-size:12px;color:#ffc978;margin-top:10px;overflow-wrap:anywhere}
+
+/* NUEVO: PUBLICACION DE DESARROLLADORES */
+.developer-banner{background:radial-gradient(ellipse at 90% 10%,rgba(115,78,255,.22),transparent 50%),linear-gradient(125deg,#141e36,#11152b);border:1px solid rgba(130,145,255,.2);border-radius:18px;padding:25px;margin-top:35px}
+.developer-banner h2{font-size:22px;margin-bottom:9px}
+.developer-banner p{color:#b5bed2;font-size:13px;line-height:1.7}
+.developer-banner .primary{display:inline-block;margin-top:16px}
+.help-text{font-size:11px;color:var(--muted);line-height:1.6}
+.submission-card{background:#0c1424;border:1px solid var(--border);border-radius:13px;padding:16px;margin:13px 0}
+.submission-card h4{font-size:16px;margin-bottom:7px}
+.submission-card p{font-size:12px;color:#b8c2d7;line-height:1.6;overflow-wrap:anywhere;margin:5px 0}
+.submission-status{display:inline-block;background:#263653;color:#b9ccff;padding:5px 9px;border-radius:20px;font-size:11px;margin:6px 0}
+.drive-link{color:#8fb0ff;text-decoration:underline;font-size:12px;overflow-wrap:anywhere}
+.check-line{display:flex;align-items:flex-start;gap:10px;color:#c5cde0;font-size:12px;line-height:1.6}
+.check-line input{margin-top:3px;accent-color:#5685ff}
+
 @media(max-width:850px){.apps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){
  .nav{padding:12px 15px}.nav-links{gap:11px;font-size:11px}
@@ -122,6 +115,7 @@ footer p,footer a{color:var(--muted);font-size:12px}
  .features{margin-top:35px}.admin-form{grid-template-columns:1fr}
  .field.full{grid-column:auto}.admin-panel{padding:17px}
  .admin-item{align-items:flex-start;flex-direction:column}
+ .developer-banner{padding:20px}
 }
 </style>
 </head>
@@ -134,6 +128,7 @@ footer p,footer a{color:var(--muted);font-size:12px}
    <a href="#">Inicio</a>
    <a href="#aplicaciones">Aplicaciones</a>
    <a href="#nosotros">Acerca de</a>
+   <a href="#publicar">Publica tu app</a>
   </div>
  </nav>
 </header>
@@ -170,6 +165,94 @@ footer p,footer a{color:var(--muted);font-size:12px}
    <div class="feature"><div>📲</div><h3>Descargas sencillas</h3><p>Accede a las descargas de tus aplicaciones desde un solo lugar.</p></div>
    <div class="feature"><div>🔄</div><h3>Actualizaciones</h3><p>Consulta las nuevas versiones de las aplicaciones disponibles.</p></div>
    <div class="feature"><div>🛡️</div><h3>Información clara</h3><p>Consulta los detalles de cada aplicación antes de descargar.</p></div>
+  </section>
+
+  <!-- NUEVO: FORMULARIO PUBLICO PARA DESARROLLADORES -->
+  <section id="publicar" class="developer-banner">
+   <h2>🚀 ¿Eres desarrollador?</h2>
+   <p>Publica tu aplicación Android en APPSTORE. Envíanos los datos de tu aplicación y el enlace de Google Drive donde alojaste el APK. Nuestro equipo revisará tu solicitud antes de publicarla.</p>
+   <button class="primary" type="button" id="showDeveloperForm">Publica tu aplicación</button>
+  </section>
+
+  <section id="developerFormSection" class="admin-wrap hidden">
+   <div class="admin-panel">
+    <h2>📲 Solicitud de publicación</h2>
+    <p style="color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:18px">
+     Completa los datos de tu aplicación. Tu solicitud será enviada al equipo de APPSTORE para revisión.
+    </p>
+
+    <form id="developerForm">
+     <div class="admin-form">
+      <div class="field full">
+       <label>Nombre de la aplicación *</label>
+       <input id="devAppName" maxlength="100" required placeholder="Ej. Mi aplicación">
+      </div>
+
+      <div class="field">
+       <label>Nombre del desarrollador *</label>
+       <input id="devName" maxlength="100" required placeholder="Tu nombre o empresa">
+      </div>
+
+      <div class="field">
+       <label>Versión *</label>
+       <input id="devVersion" maxlength="30" required placeholder="1.0.0">
+      </div>
+
+      <div class="field">
+       <label>Categoría *</label>
+       <select id="devCategory" required>
+        <option value="personalizacion">Personalización</option>
+        <option value="herramientas">Herramientas</option>
+        <option value="entretenimiento">Entretenimiento</option>
+       </select>
+      </div>
+
+      <div class="field">
+       <label>Modalidad de publicación *</label>
+       <select id="devPlan" required>
+        <option value="basico">Básico</option>
+        <option value="destacado">Destacado</option>
+       </select>
+       <small class="help-text">La administración confirmará las condiciones y el precio antes de publicar.</small>
+      </div>
+
+      <div class="field full">
+       <label>Descripción de la aplicación *</label>
+       <textarea id="devDescription" maxlength="1000" required placeholder="Describe qué hace tu aplicación..."></textarea>
+      </div>
+
+      <div class="field full">
+       <label>Enlace de Google Drive del APK *</label>
+       <input id="devDownload" type="url" required placeholder="https://drive.google.com/file/d/...">
+       <small class="help-text">Sube tu APK a Google Drive y configura el acceso como «Cualquier persona con el enlace: lector». No envíes enlaces privados.</small>
+      </div>
+
+      <div class="field full">
+       <label>URL del icono o imagen (opcional)</label>
+       <input id="devImage" type="url" placeholder="https://...">
+      </div>
+
+      <div class="field full">
+       <label>Capturas de pantalla (opcional, máximo 5; una URL por línea)</label>
+       <textarea id="devScreenshots" placeholder="https://.../captura1.png&#10;https://.../captura2.png"></textarea>
+       <small class="help-text">Utiliza enlaces públicos HTTPS a tus imágenes.</small>
+      </div>
+
+      <div class="field full">
+       <label class="check-line">
+        <input id="devAuthorization" type="checkbox" required>
+        <span>Confirmo que soy propietario de esta aplicación o que tengo autorización para distribuirla. Acepto que APPSTORE revise el archivo y la información antes de publicarla.</span>
+       </label>
+      </div>
+     </div>
+
+     <div class="admin-actions">
+      <button class="primary" type="submit" id="sendDeveloperRequest">Enviar solicitud</button>
+      <button class="secondary" type="button" id="hideDeveloperForm">Cancelar</button>
+     </div>
+     <p id="developerMessage"></p>
+    </form>
+   </div>
   </section>
  </main>
 </div>
@@ -241,16 +324,11 @@ footer p,footer a{color:var(--muted);font-size:12px}
      <label>Enlace de imagen o icono (URL pública)</label>
      <input id="appImage" type="url" placeholder="https://...">
     </div>
-
-    <!-- NUEVO CAMPO: CAPTURAS -->
     <div class="field full">
      <label>📸 Capturas de pantalla (máximo 5, una URL por línea)</label>
      <textarea id="appScreenshots" placeholder="https://.../captura-1.png&#10;https://.../captura-2.png&#10;https://.../captura-3.png&#10;https://.../captura-4.png&#10;https://.../captura-5.png"></textarea>
-     <small style="color:var(--muted);font-size:11px;line-height:1.5">
-      Pega los enlaces públicos de tus imágenes. Puedes dejar este campo vacío si no deseas mostrar capturas.
-     </small>
+     <small style="color:var(--muted);font-size:11px;line-height:1.5">Pega los enlaces públicos de tus imágenes. Puedes dejar este campo vacío si no deseas mostrar capturas.</small>
     </div>
-
     <div class="field">
      <label>Publicación</label>
      <select id="appActive">
@@ -270,6 +348,15 @@ footer p,footer a{color:var(--muted);font-size:12px}
  <div class="admin-panel">
   <h3>📱 Aplicaciones registradas</h3>
   <div id="adminApps">Cargando...</div>
+ </div>
+
+ <!-- NUEVO: BANDEJA DE SOLICITUDES -->
+ <div class="admin-panel">
+  <h3>📨 Solicitudes de desarrolladores</h3>
+  <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px">
+   Revisa los datos y abre el APK de Google Drive. Aprobar una solicitud no publica automáticamente la aplicación.
+  </p>
+  <div id="adminSubmissions">Cargando solicitudes...</div>
  </div>
 </section>
 
@@ -345,9 +432,22 @@ function safeUrl(value){
  }catch{
   return "";
  }
+}
+
+// NUEVO: VALIDAR ENLACES DE GOOGLE DRIVE
+function validDriveUrl(value){
+ try{
+  const url=new URL(value);
+  return url.protocol==="https:" &&
+   (url.hostname==="drive.google.com" ||
+    url.hostname==="www.drive.google.com" ||
+    url.hostname==="docs.google.com");
+ }catch{
+  return false;
+ }
+}
 
 // CATALOGO PUBLICO
-}
 async function loadApps(){
  const grid=$("appsGrid");
  grid.innerHTML="Cargando aplicaciones...";
@@ -430,7 +530,6 @@ function renderApps(){
   desc.className="app-description";
   desc.textContent=a.description || "";
 
-  // NUEVO: CONSTRUIR GALERIA DE CAPTURAS
   const screenshots=Array.isArray(a.screenshots)
    ? a.screenshots.map(safeUrl).filter(Boolean).slice(0,5)
    : [];
@@ -445,9 +544,6 @@ function renderApps(){
   });
 
   const link=safeUrl(a.downloadUrl || "");
-
-  // Se prepara el contenido en orden para no ocultar
-  // el nombre ni la descripción cuando no hay capturas.
   const cardContent=[top,desc];
 
   if(screenshots.length){
@@ -507,6 +603,105 @@ $("categories").addEventListener("click",e=>{
  renderApps();
 });
 
+// NUEVO: MOSTRAR Y OCULTAR FORMULARIO DE DESARROLLADORES
+$("showDeveloperForm").onclick=()=>{
+ $("developerFormSection").classList.remove("hidden");
+ $("developerFormSection").scrollIntoView({behavior:"smooth"});
+};
+
+$("hideDeveloperForm").onclick=()=>{
+ $("developerFormSection").classList.add("hidden");
+ $("developerForm").reset();
+ message("developerMessage","");
+ $("publicar").scrollIntoView({behavior:"smooth"});
+};
+
+// NUEVO: ENVIAR SOLICITUD A FIRESTORE
+$("developerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const appName=$("devAppName").value.trim();
+ const developerName=$("devName").value.trim();
+ const description=$("devDescription").value.trim();
+ const version=$("devVersion").value.trim();
+ const categoryValue=$("devCategory").value;
+ const downloadUrl=$("devDownload").value.trim();
+ const imageInput=$("devImage").value.trim();
+ const plan=$("devPlan").value;
+ const authorization=$("devAuthorization").checked;
+
+ if(!validDriveUrl(downloadUrl)){
+  message("developerMessage","El enlace debe ser de Google Drive y comenzar con HTTPS.","error");
+  return;
+ }
+
+ if(imageInput && !safeUrl(imageInput)){
+  message("developerMessage","El enlace de imagen debe ser una URL HTTPS válida.","error");
+  return;
+ }
+
+ const screenshotsText=$("devScreenshots").value.trim();
+ const screenshots=screenshotsText
+  ? screenshotsText.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)
+  : [];
+
+ if(screenshots.length>5){
+  message("developerMessage","Solo puedes enviar un máximo de 5 capturas.","error");
+  return;
+ }
+
+ if(screenshots.some(s=>!safeUrl(s))){
+  message("developerMessage","Todas las capturas deben ser enlaces HTTPS válidos.","error");
+  return;
+ }
+
+ if(!authorization){
+  message("developerMessage","Debes confirmar que tienes autorización para distribuir la aplicación.","error");
+  return;
+ }
+
+ const data={
+  appName,
+  developerName,
+  description,
+  version,
+  category:categoryValue,
+  downloadUrl,
+  imageUrl:imageInput,
+  screenshots,
+  plan,
+  authorization:true,
+  status:"pendiente",
+  createdAt:serverTimestamp()
+ };
+
+ const button=$("sendDeveloperRequest");
+
+ try{
+  button.disabled=true;
+  button.textContent="Enviando solicitud...";
+
+  await addDoc(collection(db,"submissions"),data);
+
+  message("developerMessage","¡Solicitud enviada correctamente! APPSTORE la revisará antes de publicarla.","success");
+
+  $("developerForm").reset();
+
+ }catch(error){
+  console.error("ERROR ENVIANDO SOLICITUD:",error);
+
+  message(
+   "developerMessage",
+   "No se pudo enviar la solicitud: "+(error.code || error.message),
+   "error"
+  );
+
+ }finally{
+  button.disabled=false;
+  button.textContent="Enviar solicitud";
+ }
+});
+
 // DIAGNOSTICO DE AUTENTICACION
 $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();
@@ -532,17 +727,8 @@ $("loginForm").addEventListener("submit",async e=>{
   console.error("CODIGO:",error.code);
   console.error("MENSAJE:",error.message);
 
-  message(
-   "loginMessage",
-   "Error Firebase: "+(error.code || "desconocido"),
-   "error"
-  );
-
-  message(
-   "debugMessage",
-   error.message || "Sin detalles adicionales",
-   "debug"
-  );
+  message("loginMessage","Error Firebase: "+(error.code || "desconocido"),"error");
+  message("debugMessage",error.message || "Sin detalles adicionales","debug");
 
  }finally{
   $("loginButton").disabled=false;
@@ -601,6 +787,7 @@ async function checkAdmin(user){
    resetForm();
 
    await loadAdminApps();
+   await loadAdminSubmissions();
 
   }catch(error){
    console.error("ERROR VERIFICANDO ADMIN:",error);
@@ -617,18 +804,12 @@ async function checkAdmin(user){
     message("loginMessage","El campo active no es boolean true.","error");
 
    }else{
-    message(
-     "loginMessage",
-     "Error verificando administrador: "+(error.code || error.message),
-     "error"
-    );
+    message("loginMessage","Error verificando administrador: "+(error.code || error.message),"error");
    }
 
    message("debugMessage","UID revisado: "+user.uid,"debug");
-
    showView("loginView");
 
-   // Cerramos la sesión si no se pudo verificar el permiso.
    try{
     await signOut(auth);
    }catch(signOutError){
@@ -724,7 +905,6 @@ $("appForm").addEventListener("submit",async e=>{
   return;
  }
 
- // NUEVO: LEER Y VALIDAR LAS CAPTURAS
  const screenshotsText=$("appScreenshots").value.trim();
 
  const screenshots=screenshotsText
@@ -772,11 +952,7 @@ $("appForm").addEventListener("submit",async e=>{
  }catch(error){
   console.error("ERROR GUARDANDO APLICACION:",error);
 
-  message(
-   "formMessage",
-   "No se pudo guardar: "+(error.code || error.message),
-   "error"
-  );
+  message("formMessage","No se pudo guardar: "+(error.code || error.message),"error");
 
  }finally{
   $("saveApp").disabled=false;
@@ -837,6 +1013,170 @@ async function loadAdminApps(){
  }
 }
 
+// NUEVO: CARGAR SOLICITUDES DE DESARROLLADORES
+async function loadAdminSubmissions(){
+ const area=$("adminSubmissions");
+ area.textContent="Cargando solicitudes...";
+
+ try{
+  const snap=await getDocs(collection(db,"submissions"));
+
+  area.innerHTML="";
+
+  if(snap.empty){
+   area.textContent="Todavía no hay solicitudes de desarrolladores.";
+   return;
+  }
+
+  const submissions=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
+
+  submissions.sort((a,b)=>{
+   const dateA=a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+   const dateB=b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+   return dateB-dateA;
+  });
+
+  submissions.forEach(s=>{
+   const card=document.createElement("div");
+   card.className="submission-card";
+
+   const title=document.createElement("h4");
+   title.textContent="📱 "+(s.appName || "Aplicación sin nombre");
+
+   const developer=document.createElement("p");
+   developer.textContent="Desarrollador: "+(s.developerName || "No indicado");
+
+   const version=document.createElement("p");
+   version.textContent="Versión: "+(s.version || "-");
+
+   const categoryText={
+    personalizacion:"Personalización",
+    herramientas:"Herramientas",
+    entretenimiento:"Entretenimiento"
+   };
+
+   const categoryLine=document.createElement("p");
+   categoryLine.textContent="Categoría: "+(categoryText[s.category] || s.category || "-");
+
+   const description=document.createElement("p");
+   description.textContent="Descripción: "+(s.description || "-");
+
+   const plan=document.createElement("p");
+   plan.textContent="Modalidad: "+(s.plan==="destacado" ? "Destacado" : "Básico");
+
+   const date=document.createElement("p");
+   const dateValue=s.createdAt?.toDate ? s.createdAt.toDate().toLocaleString("es-MX") : "Fecha no disponible";
+   date.textContent="Recibida: "+dateValue;
+
+   const status=document.createElement("span");
+   status.className="submission-status";
+   const statusNames={
+    pendiente:"Pendiente",
+    aprobada:"Aprobada",
+    rechazada:"Rechazada",
+    requiere_cambios:"Requiere cambios"
+   };
+   status.textContent="Estado: "+(statusNames[s.status] || s.status || "Sin estado");
+
+   const drive=document.createElement("a");
+   drive.className="drive-link";
+   drive.textContent="📥 Abrir APK en Google Drive";
+   drive.href=validDriveUrl(s.downloadUrl) ? s.downloadUrl : "#";
+   drive.target="_blank";
+   drive.rel="noopener noreferrer";
+
+   if(!validDriveUrl(s.downloadUrl)){
+    drive.textContent="Enlace de Drive no válido";
+    drive.removeAttribute("target");
+   }
+
+   card.append(title,developer,version,categoryLine,description,plan,date,status,document.createElement("br"),drive);
+
+   if(s.imageUrl && safeUrl(s.imageUrl)){
+    const image=document.createElement("p");
+    image.textContent="Imagen: "+s.imageUrl;
+    card.appendChild(image);
+   }
+
+   if(Array.isArray(s.screenshots) && s.screenshots.length){
+    const captures=document.createElement("p");
+    captures.textContent="Capturas recibidas: "+s.screenshots.length;
+    card.appendChild(captures);
+   }
+
+   if(s.adminNote){
+    const note=document.createElement("p");
+    note.textContent="Nota administrativa: "+s.adminNote;
+    card.appendChild(note);
+   }
+
+   const actions=document.createElement("div");
+   actions.className="admin-actions";
+
+   const approve=document.createElement("button");
+   approve.className="primary";
+   approve.textContent="Aprobar solicitud";
+   approve.onclick=()=>changeSubmissionStatus(s.id,"aprobada");
+
+   const changes=document.createElement("button");
+   changes.className="secondary";
+   changes.textContent="Solicitar cambios";
+   changes.onclick=()=>changeSubmissionStatus(s.id,"requiere_cambios");
+
+   const reject=document.createElement("button");
+   reject.className="danger";
+   reject.textContent="Rechazar";
+   reject.onclick=()=>changeSubmissionStatus(s.id,"rechazada");
+
+   actions.append(approve,changes,reject);
+   card.appendChild(actions);
+   area.appendChild(card);
+  });
+
+ }catch(error){
+  console.error("ERROR CARGANDO SOLICITUDES:",error);
+  area.textContent="No se pudieron cargar las solicitudes: "+(error.code || error.message);
+ }
+}
+
+// NUEVO: CAMBIAR ESTADO DE SOLICITUD
+async function changeSubmissionStatus(id,status){
+ const names={
+  aprobada:"aprobar",
+  rechazada:"rechazar",
+  requiere_cambios:"marcar como solicitud que requiere cambios"
+ };
+
+ if(!confirm("¿Deseas "+names[status]+"?")){
+  return;
+ }
+
+ let adminNote="";
+
+ if(status==="requiere_cambios" || status==="rechazada"){
+  adminNote=prompt("Escribe una nota administrativa (opcional):") || "";
+ }
+
+ try{
+  await updateDoc(doc(db,"submissions",id),{
+   status,
+   adminNote,
+   reviewedAt:serverTimestamp()
+  });
+
+  await loadAdminSubmissions();
+
+  alert("Estado actualizado correctamente.");
+
+ }catch(error){
+  console.error("ERROR ACTUALIZANDO SOLICITUD:",error);
+  alert("No se pudo actualizar: "+(error.code || error.message));
+ }
+}
+
 function editApp(id,a){
  editingId=id;
 
@@ -847,7 +1187,6 @@ function editApp(id,a){
  $("appDownload").value=a.downloadUrl||"";
  $("appImage").value=a.imageUrl||"";
 
- // NUEVO: RECUPERAR LAS CAPTURAS AL EDITAR
  $("appScreenshots").value=Array.isArray(a.screenshots)
   ? a.screenshots.join("\n")
   : "";
