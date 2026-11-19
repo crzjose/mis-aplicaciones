@@ -77,7 +77,7 @@ footer p,footer a{color:var(--muted);font-size:12px}
 .admin-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
 .secondary{background:#27344d;color:white;border:1px solid #3b4b69;padding:11px 15px;border-radius:9px}
 .danger{background:#7e293c;color:white;border:0;padding:9px 12px;border-radius:8px}
-.success{color:#79e5a7;font-size:13px;margin-top:12px}
+.success{color:#79e5a7;font-size:13px;margin-top:12px;line-height:1.7}
 .error{color:#ff9aab;font-size:13px;margin-top:12px}
 .admin-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
 .admin-item small{display:block;color:var(--muted);margin-top:5px}
@@ -248,7 +248,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
       <button class="primary" type="submit" id="sendDeveloperRequest">Enviar solicitud</button>
       <button class="secondary" type="button" id="hideDeveloperForm">Cancelar</button>
      </div>
-     <p id="developerMessage"></p>
+     <p id="developerMessage" aria-live="polite"></p>
     </form>
    </div>
   </section>
@@ -691,7 +691,13 @@ $("developerForm").addEventListener("submit",async e=>{
 
   await addDoc(collection(db,"submissions"),data);
 
-  message("developerMessage","¡Solicitud enviada correctamente! APPSTORE la revisará antes de publicarla.","success");
+  // MENSAJE DE CONFIRMACION PARA EL DESARROLLADOR
+  message(
+   "developerMessage",
+   "¡Solicitud enviada correctamente! 📩 Gracias por confiar en APPSTORE. Mantente al pendiente de tu correo electrónico para conocer las novedades sobre tu aplicación. Si no encuentras nuestros mensajes en tu bandeja de entrada, revisa también Spam o Correo no deseado para no perderte ninguna actualización.",
+   "success"
+  );
+
   $("developerForm").reset();
 
  }catch(error){
